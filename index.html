@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AvalPlay Testnet</title>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.7.5/dist/web3.min.js"></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <h1>AvalPlay Testnet</h1>
+
+  <button onclick="connectWallet()">Conectar MetaMask</button>
+  <br><br>
+
+  <button onclick="claimTokens()">Claim AVPLAY Tokens</button>
+  <br><br>
+
+  <input type="text" id="nftURI" placeholder="Insira URI da imagem NFT" />
+  <button onclick="mintNFT()">Mint NFT</button>
+
+  <p id="status"></p>
+</body>
+</html>
