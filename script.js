@@ -12,7 +12,14 @@ async function connectWallet() {
     const tokenABI = await (await fetch('abi/AVPLAYToken.json')).json();
     nftContract = new web3.eth.Contract(nftABI, nftAddress);
     tokenContract = new web3.eth.Contract(tokenABI, tokenAddress);
-    document.getElementById("status").innerText = "Carteira conectada!";
+
+    const accounts = await web3.eth.getAccounts();
+    document.getElementById("walletAddress").innerText = "Carteira: " + accounts[0];
+
+    const balance = await tokenContract.methods.balanceOf(accounts[0]).call();
+    document.getElementById("tokenBalance").innerText = "Saldo AVPLAY: " + web3.utils.fromWei(balance, 'ether');
+
+    loadNFTs(accounts[0]);
   } else {
     alert("MetaMask não encontrada.");
   }
@@ -30,4 +37,19 @@ async function mintNFT() {
   const accounts = await web3.eth.getAccounts();
   await nftContract.methods.mintNFT(uri).send({ from: accounts[0] });
   document.getElementById("status").innerText = "NFT mintado com sucesso!";
+  loadNFTs(accounts[0]);
+}
+
+async function loadNFTs(owner) {
+  const total = await nftContract.methods.balanceOf(owner).call();
+  const gallery = document.getElementById("nftGallery");
+  gallery.innerHTML = "";
+
+  for (let i = 0; i < total; i++) {
+    const tokenId = await nftContract.methods.tokenOfOwnerByIndex(owner, i).call();
+    const uri = await nftContract.methods.tokenURI(tokenId).call();
+    const img = document.createElement("img");
+    img.src = uri;
+    gallery.appendChild(img);
+  }
 }

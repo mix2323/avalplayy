@@ -2,22 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AvalPlay Testnet</title>
+  <title>AvalPlay v2</title>
   <script src="https://cdn.jsdelivr.net/npm/web3@1.7.5/dist/web3.min.js"></script>
   <script src="script.js" defer></script>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .nft-gallery img { width: 120px; height: 120px; margin: 5px; object-fit: cover; }
+  </style>
 </head>
 <body>
-  <h1>AvalPlay Testnet</h1>
+  <h1>AvalPlay - Testnet</h1>
 
-  <button onclick="connectWallet()">Conectar MetaMask</button>
-  <br><br>
+  <div>
+    <button onclick="connectWallet()">Conectar Wallet</button>
+    <p id="walletAddress"></p>
+    <p id="tokenBalance"></p>
+  </div>
 
-  <button onclick="claimTokens()">Claim AVPLAY Tokens</button>
-  <br><br>
+  <hr>
 
-  <input type="text" id="nftURI" placeholder="Insira URI da imagem NFT" />
-  <button onclick="mintNFT()">Mint NFT</button>
+  <div>
+    <button onclick="claimTokens()">Claim AVPLAY Tokens</button>
+    <br><br>
+    <input type="text" id="nftURI" placeholder="Insira URI da imagem NFT" />
+    <button onclick="mintNFT()">Mint NFT</button>
+    <p id="status"></p>
+  </div>
 
-  <p id="status"></p>
+  <hr>
+
+  <h3>Seus NFTs:</h3>
+  <div class="nft-gallery" id="nftGallery"></div>
 </body>
 </html>
