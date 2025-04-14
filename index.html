@@ -1,79 +1,43 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <title>AvalPlay - Web3 Gaming</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-</head>
-<body class="bg-gray-900 text-white font-sans">
-  <div class="p-8 max-w-4xl mx-auto text-center">
-    <h1 class="text-5xl font-bold mb-4">AvalPlay</h1>
-    <p class="text-lg mb-6">Plataforma Web3 de jogos na Avalanche Testnet</p>
-
-    <button onclick="connectWallet()" class="px-5 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold">
-      Conectar Carteira
-    </button>
-    <div id="wallet" class="mt-4 text-sm text-green-400"></div>
-
-    <div class="mt-6 space-x-4">
-      <button onclick="mintNFT()" class="px-5 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg">Mint NFT</button>
-      <button onclick="claimTokens()" class="px-5 py-2 bg-yellow-600 hover:bg-yellow-700 rounded-lg">Claim Tokens</button>
-    </div>
-
-    <div class="mt-10 border-t border-gray-700 pt-6">
-      <img src="./assets/screenshot.png" class="rounded-lg shadow-xl mx-auto max-w-full" alt="Preview" />
-    </div>
-  </div>
-
-  <script>
-    const NFT_CONTRACT = "0xa1d482f27b4c10aab960c2927965e1beceead456";
-    const TOKEN_CONTRACT = "0x4c71fb79cdc312ffc504960fbb0248d0fb9255fb";
-    const NFT_ABI = [ { "inputs": [], "name": "mint", "outputs": [], "stateMutability": "nonpayable", "type": "function" } ];
-    const TOKEN_ABI = [ { "inputs": [], "name": "claimTokens", "outputs": [], "stateMutability": "nonpayable", "type": "function" } ];
-    let web3, user;
-
-    async function connectWallet() {
-      if (window.ethereum) {
-        try {
-          await ethereum.request({ method: "eth_requestAccounts" });
-          web3 = new Web3(window.ethereum);
-          const accounts = await web3.eth.getAccounts();
-          user = accounts[0];
-          document.getElementById("wallet").innerText = "Conectado: " + user;
-        } catch (err) {
-          console.error(err);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AvalPlay</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('background.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            color: white;
+            font-family: Arial, sans-serif;
         }
-      } else {
-        alert("MetaMask não instalada");
-      }
-    }
-
-    async function mintNFT() {
-      if (!web3) return alert("Conecte sua carteira");
-      const contract = new web3.eth.Contract(NFT_ABI, NFT_CONTRACT);
-      try {
-        await contract.methods.mint().send({ from: user });
-        alert("NFT mintado!");
-      } catch (err) {
-        console.error(err);
-        alert("Erro ao mintar NFT");
-      }
-    }
-
-    async function claimTokens() {
-      if (!web3) return alert("Conecte sua carteira");
-      const contract = new web3.eth.Contract(TOKEN_ABI, TOKEN_CONTRACT);
-      try {
-        await contract.methods.claimTokens().send({ from: user });
-        alert("Tokens recebidos!");
-      } catch (err) {
-        console.error(err);
-        alert("Erro ao receber tokens");
-      }
-    }
-  </script>
+        .container {
+            padding: 50px;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            margin: 100px auto;
+            max-width: 600px;
+            border-radius: 10px;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 0.5em;
+        }
+        p {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo ao AvalPlay</h1>
+        <p>Projeto Web3 para jogos na Avalanche.</p>
+    </div>
 </body>
 </html>
