@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>AvalPlay v2</title>
-  <script src="https://cdn.jsdelivr.net/npm/web3@1.7.5/dist/web3.min.js"></script>
-  <script src="script.js" defer></script>
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    .nft-gallery img { width: 120px; height: 120px; margin: 5px; object-fit: cover; }
-  </style>
+  <meta charset="UTF-8" />
+  <title>AvalPlay - Web3 Gaming</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 </head>
-<body>
-  <h1>AvalPlay - Testnet</h1>
+<body class="bg-gray-900 text-white font-sans">
+  <div class="p-8 max-w-4xl mx-auto text-center">
+    <h1 class="text-5xl font-bold mb-4">AvalPlay</h1>
+    <p class="text-lg mb-6">A modular Web3 gaming platform on Avalanche</p>
+    
+    <button onclick="connectWallet()" class="px-5 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold">
+      Connect Wallet
+    </button>
+    
+    <div id="wallet" class="mt-4 text-sm text-green-400"></div>
 
-  <div>
-    <button onclick="connectWallet()">Conectar Wallet</button>
-    <p id="walletAddress"></p>
-    <p id="tokenBalance"></p>
+    <div class="mt-10 border-t border-gray-700 pt-6">
+      <img src="./assets/screenshot.png" class="rounded-lg shadow-xl mx-auto max-w-full" alt="Preview" />
+    </div>
   </div>
 
-  <hr>
-
-  <div>
-    <button onclick="claimTokens()">Claim AVPLAY Tokens</button>
-    <br><br>
-    <input type="text" id="nftURI" placeholder="Insira URI da imagem NFT" />
-    <button onclick="mintNFT()">Mint NFT</button>
-    <p id="status"></p>
-  </div>
-
-  <hr>
-
-  <h3>Seus NFTs:</h3>
-  <div class="nft-gallery" id="nftGallery"></div>
+  <script>
+    async function connectWallet() {
+      if (window.ethereum) {
+        try {
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+          document.getElementById("wallet").innerText = "Connected: " + accounts[0];
+        } catch (error) {
+          console.error("Wallet connection failed", error);
+        }
+      } else {
+        alert("MetaMask is not installed.");
+      }
+    }
+  </script>
 </body>
 </html>
