@@ -3,44 +3,49 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AvalPlay - Web3</title>
-  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AvalPlay - Web3 Game Platform</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
       background-image: url('background.png');
       background-size: cover;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
       background-position: center;
-      font-family: 'Arial', sans-serif;
       color: white;
-    }
-    .container {
-      max-width: 600px;
-      margin: 100px auto;
-      padding: 40px;
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 12px;
       text-align: center;
     }
-    h1 {
-      margin-bottom: 20px;
+    .container {
+      padding: 60px 20px;
+      background-color: rgba(0, 0, 0, 0.5);
     }
-    button {
-      background-color: #ff4747;
-      color: white;
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+    }
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    .button-group button {
+      padding: 12px 24px;
+      font-size: 16px;
       border: none;
-      padding: 12px 20px;
-      margin: 10px;
+      background-color: #e84142;
+      color: white;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 16px;
+      transition: 0.3s;
     }
-    button:hover {
-      background-color: #e33d3d;
+    .button-group button:hover {
+      background-color: #ff5b5b;
     }
   </style>
 </head>
@@ -48,46 +53,34 @@
   <div class="container">
     <h1>AvalPlay - Web3 Game Platform</h1>
     <p>Conecte sua carteira e interaja com o jogo!</p>
-    <button onclick="connectWallet()">Conectar Carteira</button>
-    <button onclick="mintNFT()">Mintar NFT</button>
-    <button onclick="claimTokens()">Claim Tokens</button>
-    <p id="wallet" style="margin-top: 20px;"></p>
+    <div class="button-group">
+      <button onclick="connectWallet()">Conectar Carteira</button>
+      <button onclick="mintNFT()">Mintar NFT</button>
+      <button onclick="claimTokens()">Claim Tokens</button>
+    </div>
   </div>
-
   <script>
-    let web3;
-    let userAccount;
-
-    const nftContractAddress = "0xa1d482f27b4c10aab960c2927965e1beceead456";
-    const tokenContractAddress = "0x4c71fb79cdc312ffc504960fbb0248d0fb9255fb";
-
-    const nftABI = [{ "inputs": [], "name": "mint", "outputs": [], "stateMutability": "nonpayable", "type": "function" }];
-    const tokenABI = [{ "inputs": [], "name": "claimTokens", "outputs": [], "stateMutability": "nonpayable", "type": "function" }];
-
     async function connectWallet() {
       if (window.ethereum) {
-        web3 = new Web3(window.ethereum);
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const accounts = await web3.eth.getAccounts();
-        userAccount = accounts[0];
-        document.getElementById('wallet').textContent = "Conectado: " + userAccount;
+        try {
+          await ethereum.request({ method: 'eth_requestAccounts' });
+          alert('Carteira conectada!');
+        } catch (error) {
+          console.error(error);
+        }
       } else {
-        alert("Instale o MetaMask!");
+        alert('MetaMask não encontrada!');
       }
     }
 
     async function mintNFT() {
-      const contract = new web3.eth.Contract(nftABI, nftContractAddress);
-      contract.methods.mint().send({ from: userAccount })
-        .then(() => alert("NFT mintado com sucesso!"))
-        .catch(err => alert("Erro ao mintar NFT: " + err.message));
+      alert('Função de mint de NFT chamada.');
+      // implementar lógica real
     }
 
     async function claimTokens() {
-      const contract = new web3.eth.Contract(tokenABI, tokenContractAddress);
-      contract.methods.claimTokens().send({ from: userAccount })
-        .then(() => alert("Tokens recebidos com sucesso!"))
-        .catch(err => alert("Erro ao receber tokens: " + err.message));
+      alert('Função de claim de tokens chamada.');
+      // implementar lógica real
     }
   </script>
 </body>
