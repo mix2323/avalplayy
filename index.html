@@ -1,86 +1,142 @@
-
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AvalPlay - Web3 Game Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AvalPlay - Web3 RPG</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background-image: url('background.png');
+      font-family: 'Orbitron', sans-serif;
+      background: url('images/3cda8abe-8320-41c1-8280-600eb0f7eb7c.png') no-repeat center center fixed;
       background-size: cover;
-      background-position: center;
       color: white;
-      text-align: center;
+      overflow-x: hidden;
+      position: relative;
     }
-    .container {
-      padding: 60px 20px;
-      background-color: rgba(0, 0, 0, 0.5);
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 0;
     }
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 1.2em;
-      margin-bottom: 30px;
-    }
-    .button-group {
+
+    .hero {
+      height: 100vh;
       display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 30px;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
     }
-    .button-group button {
-      padding: 12px 24px;
-      font-size: 16px;
+
+    h1 {
+      font-size: 3rem;
+      text-shadow: 0 0 10px #ff00cc;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      max-width: 600px;
+    }
+
+    .btn {
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      font-size: 1rem;
       border: none;
-      background-color: #e84142;
-      color: white;
       border-radius: 8px;
+      background: linear-gradient(90deg, #e20074, #9c27b0);
+      color: white;
       cursor: pointer;
       transition: 0.3s;
+      box-shadow: 0 0 10px #ff00cc;
     }
-    .button-group button:hover {
-      background-color: #ff5b5b;
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #ff00cc;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      background-color: rgba(0,0,0,0.6);
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      p { font-size: 1rem; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>AvalPlay - Web3 Game Platform</h1>
-    <p>Conecte sua carteira e interaja com o jogo!</p>
-    <div class="button-group">
-      <button onclick="connectWallet()">Conectar Carteira</button>
-      <button onclick="mintNFT()">Mintar NFT</button>
-      <button onclick="claimTokens()">Claim Tokens</button>
-    </div>
+  <div class="overlay"></div>
+  <div class="hero">
+    <h1>Embark on your Web3 Adventure with AvalPlay</h1>
+    <p>Connect your wallet and interact with an epic RPG experience powered by blockchain.</p>
+    <button class="btn" onclick="connectWallet()">Connect Wallet</button>
+    <button class="btn" onclick="mintNFT()">Mint NFT</button>
   </div>
+  <div class="footer">
+    &copy; 2025 AvalPlay. All rights reserved.
+  </div>
+
   <script>
+    let userAccount;
+
     async function connectWallet() {
       if (window.ethereum) {
         try {
-          await ethereum.request({ method: 'eth_requestAccounts' });
-          alert('Carteira conectada!');
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          userAccount = accounts[0];
+          alert('Wallet connected: ' + userAccount);
         } catch (error) {
-          console.error(error);
+          alert('Connection failed: ' + error.message);
         }
       } else {
-        alert('MetaMask não encontrada!');
+        alert('Please install MetaMask to connect.');
       }
     }
 
     async function mintNFT() {
-      alert('Função de mint de NFT chamada.');
-      // implementar lógica real
-    }
+      if (!userAccount) {
+        alert('Please connect your wallet first.');
+        return;
+      }
 
-    async function claimTokens() {
-      alert('Função de claim de tokens chamada.');
-      // implementar lógica real
+      const contractAddress = '0xYourContractAddressHere';
+      const abi = [
+        {
+          "inputs": [],
+          "name": "mint",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        }
+      ];
+
+      const web3 = new Web3(window.ethereum);
+      const contract = new web3.eth.Contract(abi, contractAddress);
+
+      try {
+        await contract.methods.mint().send({ from: userAccount });
+        alert('NFT minted successfully!');
+      } catch (error) {
+        alert('Minting failed: ' + error.message);
+      }
     }
   </script>
 </body>
